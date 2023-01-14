@@ -72,11 +72,13 @@ if __name__ == '__main__':
     locations = pd.merge(locations, addresses, left_index=True, right_index=True)
 
     # save data
-    locations[['location_str', 'country_code']].to_csv(os.path.join('data', 'bio_country_codes.csv'))
+    DATA_PATH = 'data'
+    os.makedirs(DATA_PATH, exist_ok=True)
+    locations[['location_str', 'country_code']].to_csv(os.path.join(DATA_PATH, 'bio_country_codes.csv'))
     locations[['location_str', 'railway',
                'road', 'suburb', 'borough', 'city', 'ISO3166-2-lvl4', 'postcode',
                'country', 'country_code', 'village', 'municipality', 'county',
                'ISO3166-2-lvl6', 'state', 'region', 'subdistrict', 'house_number',
                'tourism', 'neighbourhood', 'ISO3166-2-lvl8', 'state_district',
-               'quarter', 'city_district']].to_csv(os.path.join('data', 'bio_locations.csv'))
-    locations.to_pickle(os.path.join('data', 'bio_locations.pkl'))
+               'quarter', 'city_district']].to_csv(os.path.join(DATA_PATH, 'bio_locations.csv'))
+    locations.to_pickle(os.path.join(DATA_PATH, 'bio_locations.pkl'))
