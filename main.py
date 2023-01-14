@@ -37,6 +37,10 @@ def get_location(location_str, geolocator, **kwargs):
 
 
 def read_locations():  # TODO: update to real data
+    """
+    reads the input data
+    :return: a dataframe with a column `location_str` containing the description of the location
+    """
     return pd.DataFrame(DUMMY_LOCATION_STRS, columns=['location_str'], index=range(len(DUMMY_LOCATION_STRS)))
 
 
