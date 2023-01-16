@@ -6,3 +6,4 @@ ratelimit~=2.2.1
 tqdm~=4.64.1
 backoff~=2.2.1
 python-dotenv~=0.21.0
+scikit-learn~=1.2.0
