@@ -5,4 +5,8 @@
 3. create a `data` folder in the project root and place `polls_{year}_labeled.json` in it
 4. run `get_follower_lists.ipynb` to generate `polls_{year}_author_ids.json` and `follower_lists_{year}.jsonl`
 5. run `get_followers.ipynb` to generate `followers_rehydrated.jsonl`
-6. run `geocode_from_bios.ipynb`
+6. install a local nominatim server
+    ```cmd
+    docker run -it --shm-size=16g -e PBF_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf  -p 8080:8080  -e IMPORT_STYLE=admin  -e FREEZE=true -e USER_AGENT="nominatim_v0.0.1" -e IMPORT_WIKIPEDIA=true  -e IMPORT_US_POSTCODES=true   -e IMPORT_GB_POSTCODES=true  -e IMPORT_TIGER_ADDRESSES=true  -v "E:\nominatim\data":/var/lib/postgresql/14/main  -v "E:\nominatim\flat":/nominatim/flatnode  --name nominatim  mediagis/nominatim:4.2
+    ```
+7. run `geocode_from_bios.ipynb`
