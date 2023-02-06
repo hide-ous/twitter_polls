@@ -14,9 +14,9 @@
 
 ### TODO:
 - [x] parse poll files to extract unique authors
-- [ ] re-scrape follower lists for authors 
-- [ ] re-scrape follower lists for repliers, retweeters, quoters 
-- [ ] re-scrape follower profiles for followers of authors, repliers, retweeters, quoters 
-  - [x] log error codes associated with missing followers
-- [ ] scrape profiles for authors
+- [x] re-scrape follower lists for authors 
+- [ ] scrape profiles for followers of authors, repliers, retweeters, quoters 
+- [x] log error codes associated with missing accounts
+- [ ] scrape followee lists for repliers, retweeters, quoters
+- [ ] scrape follower lists for congress members
 - [ ] geocode all locations
