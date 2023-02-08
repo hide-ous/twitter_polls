@@ -51,13 +51,13 @@ def get_profiles(ids, client, out_path, error_path, user_fields=USER_FIELDS, bat
     return errors
 
 
-def get_followee_lists(author_ids, out_path, api):
+def get_follow_lists(author_ids, out_path, api_method, msg):
     exception_users = dict()
     with open(out_path, 'a+', encoding='utf8') as f:
-        for author_id in tqdm(author_ids, desc='checking followees'):
+        for author_id in tqdm(author_ids, desc=msg):
             followee_ids = []
             try:
-                for page in tweepy.Cursor(api.get_friend_ids, user_id=author_id, count=FOLLOWEES_PER_CALL).pages():
+                for page in tweepy.Cursor(api_method, user_id=author_id, count=FOLLOWEES_PER_CALL).pages():
                     followee_ids.extend(page)
                 f.write(json.dumps({author_id: followee_ids}) + '\n')
             except TweepyException as e:
@@ -67,17 +67,9 @@ def get_followee_lists(author_ids, out_path, api):
     return exception_users
 
 
+def get_followee_lists(author_ids, out_path, api):
+    return get_follow_lists(author_ids, out_path, api.get_friend_ids, 'checking followees')
+
+
 def get_follower_lists(author_ids, out_path, api):
-    exception_users = dict()
-    with open(out_path, 'a+', encoding='utf8') as f:
-        for author_id in tqdm(author_ids, desc='checking followers'):
-            follower_ids = []
-            try:
-                for page in tweepy.Cursor(api.get_follower_ids, user_id = author_id, count =FOLLOWERS_PER_CALL).pages():
-                    follower_ids.extend(page)
-                f.write(json.dumps({author_id:follower_ids}) + '\n')
-            except TweepyException as e:
-                print(e)
-                print(author_id)
-                exception_users[author_id]=e
-    return exception_users
+    return get_follow_lists(author_ids, out_path, api.get_follower_ids, 'checking followers')

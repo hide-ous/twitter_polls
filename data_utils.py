@@ -23,7 +23,8 @@ def get_repliers():
     for fname in ['reply_2016.json', 'reply_2020.json', 'retweet_2016.json', 'retweet_2020.json']:
         with open(os.path.join(DATA_PATH, fname)) as f:
             replies.update(json.load(f))
-    return list(sorted(set(filter(lambda x: x is not None, [vv.get('id', None) for k, v in replies.items() for vv in v]))))
+    return list(
+        sorted(set(filter(lambda x: x is not None, [vv.get('id', None) for k, v in replies.items() for vv in v]))))
 
 
 def get_followers_from_lists():
@@ -57,9 +58,14 @@ def get_author_ids(year, save=False):
     if save:
         with open(os.path.join(DATA_PATH, f'polls_{year}_author_ids.json'), 'w+') as f:
             json.dump(author_ids, f)
+    return author_ids
 
 
 def write_error_users(exception_users, fpath):
-    with open(fpath, 'w+') as f:
+    with open(fpath, 'a+') as f:
         for k, v in exception_users.items():
             f.write(json.dumps({k: v.api_errors[0]}) + '\n')
+
+
+def read_error_users(fpath):
+    return get_authors_from_follower_lists(fpath)
