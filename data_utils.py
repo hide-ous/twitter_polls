@@ -18,13 +18,20 @@ def get_scaraped_profiles(out_path=os.path.join(DATA_PATH, 'followers_rehydrated
     return already_scraped
 
 
-def get_repliers():
-    replies = dict()
-    for fname in ['reply_2016.json', 'reply_2020.json', 'retweet_2016.json', 'retweet_2020.json']:
-        with open(os.path.join(DATA_PATH, fname)) as f:
-            replies.update(json.load(f))
-    return list(
-        sorted(set(filter(lambda x: x is not None, [vv.get('id', None) for k, v in replies.items() for vv in v]))))
+def get_retweeters_repliers():
+    repliers = set()
+    for year in YEARS:
+        with open(os.path.join(DATA_PATH, f'retweet_{year}.json')) as f:
+            retweeters_of = json.load(f)
+            for retweeters in retweeters_of.values():
+                for retweeter in retweeters:
+                    repliers.add(retweeter['id'])
+        with open(os.path.join(DATA_PATH, f'reply_{year}.json')) as f:
+            replies_of = json.load(f)
+            for replies in replies_of.values():
+                for reply in replies:
+                    repliers.add(reply['author_id'])
+    return list(sorted(repliers))
 
 
 def get_followers_from_lists():
@@ -42,7 +49,7 @@ def get_authors_from_follower_lists(out_path):
     if os.path.exists(out_path):
         with open(out_path) as f:
             existing_users.update(k for l in f for k in json.loads(l))
-    return existing_users
+    return list(sorted(existing_users))
 
 
 def get_authors_from_keys(fpath):
