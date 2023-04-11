@@ -78,14 +78,14 @@ def read_error_users(fpath):
     return get_authors_from_follower_lists(fpath)
 
 
-def get_new_author_ids():
-    with open(os.path.join(DATA_PATH, 'clean-new.json')) as f:
+def get_new_author_ids(fname='clean-new.json'):
+    with open(os.path.join(DATA_PATH, fname)) as f:
         return list(sorted(set(map(lambda x: x['author_id'], json.load(f)))))
 
 
-def get_new_retweeters_repliers():
+def get_new_retweeters_repliers(fname="retweet_new_2020.json"):
     repliers = set()
-    with open(os.path.join(DATA_PATH, "retweet_new_2020.json")) as f:
+    with open(os.path.join(DATA_PATH, fname)) as f:
         retweeters_of = json.load(f)
         for retweeters in retweeters_of.values():
             for retweeter in retweeters:
@@ -99,3 +99,7 @@ def get_follow_from_lists(fpath='follower_lists_new.jsonl'):
             for _, ids_ in json.loads(l).items():
                 ids.update(ids_)
     return sorted(list(ids))
+
+def get_newer_author_ids(fname='clean-new.json'):
+    with open(os.path.join(DATA_PATH, fname)) as f:
+        return list(sorted(set(map(lambda x: x['meta']['author_id'], json.load(f)))))
